@@ -1,15 +1,31 @@
 export default function orderByProps(obj, sortoder) {
-  const result = [];
-  for (const prop in obj) {
-    if (obj.hasOwnProperty(prop)) {
+  const copy = { ...obj };
+  const resultByArr = [];
+  for (const prop in copy) {
+    if (sortoder.includes(prop)) {
       const newObj = {
         key: prop,
-        value: obj[prop],
+        value: copy[prop],
       };
-      result.push(newObj);
+      resultByArr.push(newObj);
     }
   }
-  result.sort((x, y) => {
+  resultByArr.sort((a, b) => sortoder.indexOf(a.key) - sortoder.indexOf(b.key));
+
+  const resultByAlphabet = [];
+  for (let i = 0; i < sortoder.length; i++) {
+    delete copy[sortoder[i]];
+  }
+  for (const prop in copy) {
+    if (copy.hasOwnProperty(prop)) {
+      const newObj = {
+        key: prop,
+        value: copy[prop],
+      };
+      resultByAlphabet.push(newObj);
+    }
+  }
+  resultByAlphabet.sort((x, y) => {
     if (x.key < y.key) {
       return -1;
     }
@@ -18,5 +34,6 @@ export default function orderByProps(obj, sortoder) {
     }
     return 0;
   });
-  return result;
+
+  return [...resultByArr, ...resultByAlphabet];
 }
