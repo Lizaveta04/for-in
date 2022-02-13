@@ -29,10 +29,7 @@ export default function orderByProps(obj, sortoder) {
     if (x.key < y.key) {
       return -1;
     }
-    if (x.key > y.key) {
-      return 1;
-    }
-    return 0;
+    return 1;
   });
 
   return [...resultByArr, ...resultByAlphabet];
